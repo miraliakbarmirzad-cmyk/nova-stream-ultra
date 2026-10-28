@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://miraliakbarmirzad-cmyk.github.io/nova-stream-ultra/sitemap.xml
