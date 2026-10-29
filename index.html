@@ -54,6 +54,8 @@ const titles=[
 {id:21,title:"How to Train Your Dragon",year:2025,type:"movie",genre:"drama",rating:"—",tag:"USA",img:posterArt("How to Train Your Dragon","#42726e"),desc:"A live-action adventure about a young Viking and his unlikely dragon friend."},
 {id:22,title:"Homebound",year:2025,type:"movie",genre:"drama",rating:"—",tag:"INDIA",img:posterArt("Homebound","#9c7e5c"),desc:"Two friends pursue opportunity while navigating difficult choices and social pressures."}
 ];
+// Show only titles that have an actual playable video source; poster-only entries stay hidden.
+titles.splice(0,titles.length,...titles.filter(t=>Boolean(t.video)));
 const $=s=>document.querySelector(s);let currentFilter="all",query="",selected=null;const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function card(t){return '<article class="movie" tabindex="0" role="button" data-id="'+t.id+'" aria-label="Details for '+safe(t.title)+'"><div class="poster"><img loading="lazy" src="'+t.img+'" alt="'+safe(t.title)+' poster" onerror="this.style.opacity=.15"><span class="tag">'+safe(t.tag)+'</span></div><h3>'+safe(t.title)+'</h3><div class="submeta"><span>'+t.year+' · '+(t.type==="series"?"Series":"Movie")+'</span><b>★ '+t.rating+'</b></div></article>'}
 function visible(){return titles.filter(t=>(currentFilter==="all"||currentFilter===t.type||currentFilter===t.genre)&&t.title.toLowerCase().includes(query.toLowerCase()))}
