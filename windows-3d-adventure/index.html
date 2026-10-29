@@ -13,9 +13,9 @@ h1{margin:0 0 8px;font-size:clamp(30px,6vw,54px);color:#5cecff;letter-spacing:2p
 #status{color:#a8c7d9}
 </style>
 </head><body>
-<div id="hud"><div id="title">NOVA: LOST FRONTIER</div><div id="stats">HEALTH 100 · CRYSTALS 0/3 · SENTINELS 3</div><div id="status">Find the energy crystals.</div></div>
+<div id="hud"><div id="title">NOVA: LOST FRONTIER</div><div id="stats">HEALTH 100 · CRYSTALS 0/3 · SENTINELS 3</div><div id="status">Explore the ancient ruins and recover three energy crystals.</div></div>
 <div id="help">WASD move · Mouse aim · Click fire · Space jump · Esc unlock mouse</div>
-<div id="overlay"><div class="panel"><h1>NOVA</h1><p>LOST FRONTIER · 3D BROWSER DEMO</p><p>Recover three glowing crystals while avoiding hostile sentinels.</p><p id="small">Best on desktop with keyboard and mouse.</p><button id="start">ENTER THE FRONTIER</button></div></div>
+<div id="overlay"><div class="panel"><h1>NOVA</h1><p>LOST FRONTIER · 3D BROWSER DEMO</p><p>Explore a frozen alien frontier, collect glowing crystals, and evade sentinels.</p><p id="small">Best on desktop with keyboard and mouse.</p><button id="start">ENTER THE FRONTIER</button></div></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x07101c);scene.fog=new THREE.Fog(0x07101c,24,65);
@@ -29,6 +29,25 @@ function box(x,y,z,sx,sy,sz,color){let m=new THREE.Mesh(new THREE.BoxGeometry(sx
 for(const x of [-21,21])box(x,2,-13,1,4,70,0x173c49);
 for(let z=-36;z<6;z+=8)for(const x of [-15,-10,10,15])if(Math.random()>.25)box(x,1,z,1.5,2,1.5,0x52616a);
 for(let i=0;i<34;i++){const r=.15+Math.random()*.35;const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(r),mat(0x3a4a50));rock.position.set((Math.random()-.5)*38,.05,Math.random()*-48+5);scene.add(rock)}
+// Ancient sci-fi ruins, luminous runes and atmospheric beacon towers
+const ruinMat=mat(0x263746), edgeMat=mat(0x187d91,0x073b53), warmMat=mat(0x6b3c2d);
+for(let z=-34;z<3;z+=9){
+ for(const x of [-12,12]){
+  const p=box(x,2.1,z,2.1,4.2,2.1,0x263746);
+  box(x,4.25,z,2.8,.35,2.8,0x405563);
+  const strip=box(x+(x<0?1.08:-1.08),2.2,z,.08,2.8,.08,0x14cfe5);
+  strip.material=mat(0x14cfe5,0x0799bb);
+ }
+ const arch=box(0,4.5,z,13,.28,.3,0x314b5a);
+}
+for(let i=0;i<22;i++){
+ const x=(Math.random()-.5)*34,z=-Math.random()*43+2;
+ const shard=new THREE.Mesh(new THREE.ConeGeometry(.18+Math.random()*.22,.8+Math.random()*1.3,5),mat(0x16b9d3,0x087f9e));
+ shard.position.set(x,.45,z);shard.rotation.z=(Math.random()-.5)*.5;scene.add(shard);
+}
+const moon=new THREE.Mesh(new THREE.SphereGeometry(3,24,16),new THREE.MeshBasicMaterial({color:0x7bdfff}));
+moon.position.set(-13,14,-38);scene.add(moon);
+const moonGlow=new THREE.PointLight(0x20bfe9,90,55);moonGlow.position.copy(moon.position);scene.add(moonGlow);
 const player=new THREE.Group();scene.add(player);player.position.set(0,0,4);
 const suit=new THREE.Mesh(new THREE.CapsuleGeometry(.42,.85,4,8),mat(0x1689bd));suit.position.y=1;player.add(suit);
 const visor=new THREE.Mesh(new THREE.SphereGeometry(.25,12,10),mat(0x75f4ff,0x0088aa));visor.position.set(0,1.55,-.18);player.add(visor);
